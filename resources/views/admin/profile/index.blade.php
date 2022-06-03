@@ -18,16 +18,33 @@
                         <div class="form-group row">
                           <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                           <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                            <input type="email" class="form-control" id="inputName" placeholder="Name" name="name" value="{{ $profileShow->name }}">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                           <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" value="{{ $profileShow->email }}">
                           </div>
                         </div>
-                        
+                        <div class="form-group row">
+                          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                          <div class="col-sm-10">
+                            <input name="password" type="password" class="form-control" placeholder="Password" value="{{ $profileShow->password }}">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-2 col-form-label">Phone</label>
+                          <div class="col-sm-10">
+                            <input type="number" class="form-control" placeholder="Phone" name="phone" value="{{ $profileShow->phone }}">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label  class="col-sm-2 col-form-label">Address</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control"  placeholder="address" name="address" value="{{ $profileShow->address }}">
+                          </div>
+                        </div>
                         <div class="form-group row">
                           <div class="offset-sm-2 col-sm-10">
                             <a href="">Change Password</a>

@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+  {{-- cdn bs  --}}
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -28,7 +34,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
           <li class="nav-item">
-            <a href="myProfile.html" class="nav-link">
+            <a href="{{ route('profile') }}" class="nav-link">
               <i class="fas fa-user-circle"></i>
               <p>
                 My Profile
@@ -37,17 +43,17 @@
           </li>
 
           <li class="nav-item">
-            <a href="category.html" class="nav-link">
+            <a href="{{ route('category') }}" class="nav-link">
               <i class="fas fa-list"></i>
               <p>
                 Category
               </p>
             </a>
           </li>
-
+      
           <li class="nav-item">
-            <a href="pizza.html" class="nav-link">
-              <i class="fas fa-pizza-slice ms-5"></i>
+            <a href="{{ route('pizza') }}" class="nav-link">
+              <i class="fas fa-list"></i>
               <p>
                 Pizza
               </p>
@@ -81,14 +87,15 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href="" class="nav-link">
-              <i class="fas fa-sign-out-alt"></i>
-              <p>
-                Logout
-              </p>
-            </a>
-          </li>
+      <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <li class="nav-item ">
+         
+         
+            
+            <input type="submit" value="Logout" class="nav-item">
+        </li>
+      </form>
         </ul>
       </nav>
     </div>
