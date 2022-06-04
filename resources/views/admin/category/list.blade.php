@@ -4,9 +4,10 @@
 @section('content')
     <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-
+  
     <!-- Main content -->
     <section class="content">
+
       <div class="container-fluid">
         @if (Session::has('addCategory'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -37,13 +38,15 @@
 
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
+                   <form action="{{ route('category') }}" method="POST"> <div class="input-group-append">
+                   @csrf
+                   <input type="text" name="searchCategory" class="form-control float-right" placeholder="Search">
+
+                    <button type="submit" class="btn btn-default">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div></form>
                   </div>
                 </div>
               </div>

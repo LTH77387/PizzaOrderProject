@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class AdminController extends Controller
+class CategoryController extends Controller
 {
     public function index(){
         return view('admin.home');
@@ -22,9 +23,7 @@ class AdminController extends Controller
         $data=Category::paginate(5);
         return view('admin.category.list')->with(['showCategory'=>$data]);
     }
-    public function pizza(){
-        return view('admin.pizza.list');
-    }
+ 
     public function addCategory(){
         return view('admin.category.addCategory');
     }
@@ -58,5 +57,10 @@ class AdminController extends Controller
     public function deleteCategory($id){
         Category::where('category_id',$id)->delete();
         return back()->with(['deleteCategory'=>"Category deleted successfully!!"]);
+    }
+    public function searchCategory(Request $request){
+
+        $data=Category::where('category_name','like','%'.$request->searchCategory.'%')->paginate(5);
+        return view('admin.category.list')->with(['showCategory'=>$data]);
     }
 }

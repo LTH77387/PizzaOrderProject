@@ -52,8 +52,8 @@
           </li>
       
           <li class="nav-item">
-            <a href="{{ route('pizza') }}" class="nav-link">
-              <i class="fas fa-list"></i>
+            <a href="{{ route('pizzaGet') }}" class="nav-link">
+              <i class="fas fa-pizza-slice "></i>
               <p>
                 Pizza
               </p>

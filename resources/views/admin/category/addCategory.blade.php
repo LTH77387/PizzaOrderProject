@@ -6,10 +6,15 @@
     <div class="content-wrapper">
 
     <section class="content">
+   
+
         <div class="container-fluid">
           <div class="row mt-4">
             <div class="col-8 offset-3 mt-5">
+
               <div class="col-md-9">
+                <a href="{{ route('category') }}" class="text-decoration-none text-dark "> <i class="fas fa-arrow-left"></i>Back</a>
+
                 <div class="card">
                   <div class="card-header p-2">
                     <legend class="text-center">Add Categories</legend>
