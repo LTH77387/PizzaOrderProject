@@ -22,7 +22,7 @@
 
                 <div class="card">
                   <div class="card-header p-2">
-                    <legend class="text-center">Add Pizza</legend>
+                    <legend class="text-center">Pizza Information</legend>
                   </div>
                   <div class="card-body">
                     <div class="tab-content">
@@ -49,10 +49,10 @@
                                 @endif
                             </div>
                             <div class="">
-                                <label>Category ID:</label> <label></label>
+                                <label>Category ID:</label> <label>{{ $pizzaInfo->category_id }}</label>
                             </div>
                             <div class="">
-                                <label>Discount:</label> <label>{{ $pizzaInfo->discount_price}} MMK</label>
+                                <label>Discount:</label> <label> {{ $pizzaInfo->discount_price }}MMK</label>
                             </div>
                             <div class="">
                                 <label>Buy 1 Get 1 Free:</label>

@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class PizzaController extends Controller
 {
@@ -60,8 +61,33 @@ private function requestPizzaData($request,$fileName){
         'description'=>$request->description,
     ];
     }
+    public function pizzaEdit($id,Request $request){
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|unique:posts|max:255',
+        //     'body' => 'required',
+        //     'name'=>'required',
+        //     'image'=>'required',
+        //     'descriptioon'=>'required',
+        //     'publish'=>'required',
+        //     // 'category'=>'required',
+        //     'discount'=>'required',
+        //     'waitingTime'=>'required',
+        // ]);
+ 
+        // if ($validator->fails()) {
+        //     return      redirect()->route('pizzaEdit')
+        //                 ->withErrors($validator)
+        //                 ->withInput();
+        // }
+        $data=Pizza::where('pizza_id',$id)->first();
+        return view('admin.pizza.edit')->with(['pizzaEdit'=>$data]);
+    }
+   
     public function pizzaInfo($id){
         $data=Pizza::where('pizza_id',$id)->first();
         return view('admin.pizza.pizzaInfo')->with(['pizzaInfo'=>$data]);
     }
+    // public function editPizza(){
+    //     return view('admin.pizza.edit');
+    // }
 }

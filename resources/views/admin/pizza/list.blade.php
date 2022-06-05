@@ -191,8 +191,10 @@
                   @endif  
                   </td>
                   <td>
-                   <a href="{{ route('pizzaInfo',$item->pizza_id) }}"> <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
+                   <a href="{{ route('pizzaEdit',$item->pizza_id) }}"> <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
                     <a href="{{ route('deletePizza',$item->pizza_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
+                    <a href="{{ route('pizzaInfo',$item->pizza_id) }}"><button class="btn btn-sm bg-dark text-white"><i class="fas fa-eye"></i></button>
+                    </a>
                   </td>
                 </tr>
                 @endforeach

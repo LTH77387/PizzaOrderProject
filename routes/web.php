@@ -48,6 +48,10 @@ Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
     Route::post('category',[CategoryController::class,'searchCategory'])->name('category');
     Route::get('deletePizza/{id}',[PizzaController::class,'deletePizza'])->name('deletePizza');
     Route::get('pizzaInfo/{id}',[PizzaController::class,'pizzaInfo'])->name('pizzaInfo');
+    Route::get('pizzaEdit{id}',[PizzaController::class,'pizzaEdit'])->name('pizzaEdit');
+    //edit Pizza direct page
+    // Route::get('editPizza',[PizzaController::class,'editPizza'])->name('editPizza');
+
 });
 Route::group(['prefix'=>'user'],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
