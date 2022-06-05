@@ -6,12 +6,19 @@ use App\Models\Pizza;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class PizzaController extends Controller
 {
     public function pizzaGet(){
-        $data=Pizza::get();
-        return view('admin.pizza.list')->with(['pizzaShow'=>$data]);
+
+        $data=Pizza::paginate(5);
+        if(count($data)==0){
+            $emptyStauts=0;
+        }else{
+            $emptyStauts=1;
+        }
+        return view('admin.pizza.list')->with(['pizzaShow'=>$data,'status'=>$emptyStauts]);
     }
     public function pizza(){
         $create=Category::get();
@@ -19,14 +26,31 @@ class PizzaController extends Controller
     }
     
     public function createPizza(Request $request){
-       $data=$this->requestPizzaData($request);
+        $file=$request->file('image');
+       
+        $fileName=uniqid() . '_' . $file->getClientOriginalName();
+      
+        $file->move(public_path() . '/uploads/' , $fileName);
+
+       $data=$this->requestPizzaData($request,$fileName);
      Pizza::create($data);
         return back()->with(['createPizza'=>"Pizza created successfully!"]);
     }
-    private function requestPizzaData($request){
+ 
+    //delete 
+public function deletePizza($id){
+    $data=Pizza::select('pizza_image')->where('pizza_id',$id)->first();
+    $fileName=$data['pizza_image'];
+    Pizza::where('pizza_id',$id)->delete();
+    if(File::exists(public_path() . '/uploads/' . $fileName)){
+            File::delete(public_path() . '/uploads/' . $fileName);
+    }
+    return back()->with(['deletePizza'=>"Pizza Data deleted successfully!!"]);
+}
+private function requestPizzaData($request,$fileName){
     return [
         'pizza_name'=>$request->name,
-        'pizza_image'=>$request->image,
+        'pizza_image'=>$fileName,
         'price'=>$request->price,
         'publish_status'=>$request->publish,
         'category_id'=>$request->category,
@@ -36,9 +60,8 @@ class PizzaController extends Controller
         'description'=>$request->description,
     ];
     }
-    //delete 
-public function deletePizza($id){
-    Pizza::where('pizza_id',$id)->delete();
-    return back()->with(['deletePizza'=>"Pizza Data deleted successfully!!"]);
-}
+    public function pizzaInfo($id){
+        $data=Pizza::where('pizza_id',$id)->first();
+        return view('admin.pizza.pizzaInfo')->with(['pizzaInfo'=>$data]);
+    }
 }

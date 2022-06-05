@@ -27,7 +27,7 @@
                   <div class="card-body">
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
-                        <form class="form-horizontal" method="POST" action="{{ route('createPizza') }}">
+                        <form class="form-horizontal" method="POST" action="{{ route('createPizza') }}" enctype="multipart/form-data">
                             @csrf
                           <div class="form-group row">
                             <label for="inputName" class="col-sm-2 col-form-label">Pizza Name</label>

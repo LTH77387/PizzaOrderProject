@@ -161,34 +161,42 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($pizzaShow as $item)
-                    <tr>
-                      <td>{{ $item->pizza_id}}</td>
-                      <td>{{ $item->pizza_name }}</td>
-                      <td>
-                        <img src="https://st.depositphotos.com/1003814/5052/i/950/depositphotos_50523105-stock-photo-pizza-with-tomatoes.jpg" class="img-thumbnail" width="100px">
-                      </td>
-                      <td>{{ $item->price }} kyats</td>
-                      <td>
-                        @if ($item->publish_status==0)
-                          Publish
-                          @elseif ($item->publish_status==1)
-                          Unpublish
-                        @endif
-                      </td>
-                      <td>
-                      @if ($item->buy_one_get_one_status==0)
-                        Yes
-                        @elseif ($item->buy_one_get_one_status==1)
-                        No
-                      @endif  
-                      </td>
-                      <td>
-                        <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button>
-                        <a href="{{ route('deletePizza',$item->pizza_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
-                      </td>
-                    </tr>
-                    @endforeach
+                @if ($status==0)
+                  <tr>
+                    <td colspan="7">
+                      <small class="text-muted">There is no data.</small>
+                    </td>
+                  </tr>
+                @else
+                @foreach ($pizzaShow as $item)
+                <tr>
+                  <td>{{ $item->pizza_id}}</td>
+                  <td>{{ $item->pizza_name }}</td>
+                  <td>
+                    <img src="{{ asset('/uploads/' . $item->pizza_image) }}" class="img-thumbnail" width="100px" height="100px">
+                  </td>
+                  <td>{{ $item->price }} kyats</td>
+                  <td>
+                    @if ($item->publish_status==0)
+                      Publish
+                      @elseif ($item->publish_status==1)
+                      Unpublish
+                    @endif
+                  </td>
+                  <td>
+                  @if ($item->buy_one_get_one_status==0)
+                    Yes
+                    @elseif ($item->buy_one_get_one_status==1)
+                    No
+                  @endif  
+                  </td>
+                  <td>
+                   <a href="{{ route('pizzaInfo',$item->pizza_id) }}"> <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
+                    <a href="{{ route('deletePizza',$item->pizza_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
+                  </td>
+                </tr>
+                @endforeach
+                @endif
                     
                   </tbody>
                 </table>

@@ -47,6 +47,7 @@ Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
     Route::get('pizzaCreate',[PizzaController::class,'pizza'])->name('pizzaCreate');
     Route::post('category',[CategoryController::class,'searchCategory'])->name('category');
     Route::get('deletePizza/{id}',[PizzaController::class,'deletePizza'])->name('deletePizza');
+    Route::get('pizzaInfo/{id}',[PizzaController::class,'pizzaInfo'])->name('pizzaInfo');
 });
 Route::group(['prefix'=>'user'],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
