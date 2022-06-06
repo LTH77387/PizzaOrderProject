@@ -22,7 +22,7 @@
 
                 <div class="card">
                   <div class="card-header p-2">
-                    <legend class="text-center">Add Pizza</legend>
+                    <legend class="text-center">Edit Pizza</legend>
                   </div>
                   <div class="card-body">
                     <div class="tab-content">
@@ -30,22 +30,32 @@
                      <div class="text-center">
                         <img src="{{ asset('/uploads/' . $pizzaEdit->pizza_image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px">
                     </div>
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('edit',$pizzaEdit->pizza_id) }}" method="POST" enctype="multipart/form-data">
+                          @csrf
                           <div class="">
                             <div class="">
                               <input type="file" name="image"  class="form-control">
                             </div>
                               <div class="">
                                   <label >Pizza Name:</label>
-                                  <input type="text" name="name" value="{{ $pizzaEdit->pizza_name }}" class="form-control">
+                                  <input type="text" name="name" value="{{ old('name',$pizzaEdit->pizza_name) }}" class="form-control">
+                                  @if ($errors->has('name'))
+                                  <span class="text-danger">{{ $errors->first('name') }}</span>
+                                @endif
                               </div>
                               <div class="">
                                   <label>Description:</label> 
-                                  <input type="text" name="description" value="{{ $pizzaEdit->description }}" class="form-control">
+                                  <input type="text" name="description" value="{{ old('description', $pizzaEdit->description ) }}" class="form-control">
+                                  @if ($errors->has('description'))
+                                  <span class="text-danger">{{ $errors->first('description') }}</span>
+                                @endif
                               </div>
                               <div class="">
                                   <label>Price:</label> 
-                                  <input type="text" name="price" value="{{ $pizzaEdit->price }}" class="form-control">
+                                  <input type="text" name="price" value="{{ old('price',$pizzaEdit->price ) }}" class="form-control">
+                                  @if ($errors->has('price'))
+                                  <span class="text-danger">{{ $errors->first('price') }}</span>
+                                @endif
                               </div><br>
                               <div class="">
                                   <label>Publish Status:</label>
@@ -63,25 +73,63 @@
                                     <option value="1" selected>Unpublish</option>
                                     @endif
                                   </select>
+                                 
                               </div>
                               <div class="">
-                                  <label>Category ID:</label> <label></label>
+                                  <label>Category :</label>
+                                 
+                                    <select name="category" class="form-control">
+                                      <option value="">Choose Option...</option>
+                                  @foreach ($create as $item)
+                                 
+                                 <option value="{{ $item->category_id }}" >{{ $item->category_name }}</option>
+                                 
+                                  @endforeach
+                                  </select>
                               </div><br>
                               <div class="">
                                   <label>Discount:</label>
-                                  <input type="text" name="discount" value="{{ $pizzaEdit->discount_price}} MMK" class="form-control">
-                              </div>
-                              <div class="">
-                                  <label>Buy 1 Get 1 Free:</label>
-                                  @if ($pizzaEdit->buy_one_get_one_status==1)
-                                     No
-                                  @else
-                                     Yes
+                                  <input type="text" name="discount" value="{{ old('discount',$pizzaEdit->discount_price) }} " ><br>
+                                  @if ($errors->has('discount'))
+                                    <span class="text-danger">{{ $errors->first('discount') }}</span>
                                   @endif
+                              </div><br>
+                              <h6 class="ms-4">Buy 1 Get 1 :</h6>
+                              <div class="form-check float-left">
+                               
+                               @if ($pizzaEdit->buy_one_get_one_status==1)
+                           
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                              
+                               <label class="form-check-label" for="flexCheckDefault">
+                         Yes
+                               </label>&nbsp; &nbsp; &nbsp; &nbsp;
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                               <label class="form-check-label" for="flexCheckDefault">
+                               No
+                               </label>
+                               
+                                 
+                               @else
+                               <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                 Yes
+                                </label> &nbsp; &nbsp; &nbsp;
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                <label class="form-check-label" for="flexCheckDefault">
+                                No
+                                </label>
                               </div>
+                               @endif
+                              </div><br><br>
+                              
                               <div class="">
                                   <label>Waiting Time:</label>
-                                  <input type="text" name="waitingTime" value="{{ $pizzaEdit->waiting_time }} MINS" class="form-control">
+                                  <input type="text" name="waitingTime" value="{{ old('waitingTime',$pizzaEdit->waiting_time) }} " class="form-control">
+                                  @if ($errors->has('waitingTime'))
+                                  <span class="text-danger">{{ $errors->first('waitingTime') }}</span>
+                                @endif
                               </div>
                               <div class="">
                                   <input type="submit" value="Update" class="btn bg-dark text-white mt-3 float-end">
