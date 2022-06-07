@@ -19,7 +19,8 @@
 
               <div class="col-md-9">
                 <a href="{{ route('pizzaGet') }}" class="text-decoration-none text-dark "> <i class="fas fa-arrow-left"></i>Back</a>
-
+                <form action="{{ route('editData',$pizzaEdit->pizza_id) }}" method="POST" enctype="multipart/form-data">
+                  @csrf
                 <div class="card">
                   <div class="card-header p-2">
                     <legend class="text-center">Edit Pizza</legend>
@@ -28,10 +29,9 @@
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
                      <div class="text-center">
-                        <img src="{{ asset('/uploads/' . $pizzaEdit->pizza_image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px">
+                        <img src="{{ asset('/uploads/' . $pizzaEdit->pizza_image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px" name="image">
                     </div>
-                        <form action="{{ route('edit',$pizzaEdit->pizza_id) }}" method="POST" enctype="multipart/form-data">
-                          @csrf
+                       
                           <div class="">
                             <div class="">
                               <input type="file" name="image"  class="form-control">
@@ -65,7 +65,7 @@
                                       Unpublish
                                   @endif --}}
                                   <select name="publish" id="">
-                                    @if ($pizzaEdit->publish==0)
+                                    @if ($pizzaEdit->publish_status==0)
                                     <option value="0" selected>Publish</option>
                                     <option value="1">Unpublish</option>
                                     @else
@@ -77,15 +77,18 @@
                               </div>
                               <div class="">
                                   <label>Category :</label>
-                                 
-                                    <select name="category" class="form-control">
-                                      <option value="">Choose Option...</option>
-                                  @foreach ($create as $item)
-                                 
-                                 <option value="{{ $item->category_id }}" >{{ $item->category_name }}</option>
-                                 
-                                  @endforeach
-                                  </select>
+                              <select name="category" id="">
+                                {{-- <option value="">Choose Options...</option> --}}
+                                @foreach ($category as $item)
+                            
+                                  @if ($item->category_id != $pizzaEdit->category_id)
+                                  <option value="{{ $item->category_id }}" >{{ $item->category_name }}</option>
+                                  @else{
+                                    <option value="{{ $item->category_id }}" selected>{{ $item->category_name }}</option>
+                                  }
+                                  @endif
+                                @endforeach
+                              </select>
                               </div><br>
                               <div class="">
                                   <label>Discount:</label>
@@ -99,12 +102,12 @@
                                
                                @if ($pizzaEdit->buy_one_get_one_status==1)
                            
-                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="buyOneGetOne">
                               
                                <label class="form-check-label" for="flexCheckDefault">
                          Yes
                                </label>&nbsp; &nbsp; &nbsp; &nbsp;
-                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked name="buyOneGetOne">
                                <label class="form-check-label" for="flexCheckDefault">
                                No
                                </label>
@@ -112,11 +115,11 @@
                                  
                                @else
                                <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked name="buyOneGetOne">
                                 <label class="form-check-label" for="flexCheckChecked">
                                  Yes
                                 </label> &nbsp; &nbsp; &nbsp;
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="buyOneGetOne">
                                 <label class="form-check-label" for="flexCheckDefault">
                                 No
                                 </label>

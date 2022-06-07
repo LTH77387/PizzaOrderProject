@@ -49,7 +49,7 @@ Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
     Route::get('deletePizza/{id}',[PizzaController::class,'deletePizza'])->name('deletePizza');
     Route::get('pizzaInfo/{id}',[PizzaController::class,'pizzaInfo'])->name('pizzaInfo');
     Route::get('pizzaEdit{id}',[PizzaController::class,'pizzaEdit'])->name('pizzaEdit');
-   Route::post('editData{id}',[PizzaController::class,'editData'])->name('edit');
+   Route::post('editData{id}',[PizzaController::class,'editData'])->name('editData');
     //edit Pizza direct page
     // Route::get('editPizza',[PizzaController::class,'editPizza'])->name('editPizza');
 
