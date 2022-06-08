@@ -19,7 +19,7 @@
 
               <div class="col-md-9">
                 <a href="{{ route('pizzaGet') }}" class="text-decoration-none text-dark "> <i class="fas fa-arrow-left"></i>Back</a>
-                <form action="{{ route('editData',$pizzaEdit->pizza_id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('updatePizza',$pizzaEdit->pizza_id) }}" method="POST" enctype="multipart/form-data">
                   @csrf
                 <div class="card">
                   <div class="card-header p-2">
@@ -29,7 +29,7 @@
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
                      <div class="text-center">
-                        <img src="{{ asset('/uploads/' . $pizzaEdit->pizza_image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px" name="image">
+                        <img src="{{ asset('/uploads/' . $pizzaEdit->image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px" name="image">
                     </div>
                        
                           <div class="">
@@ -64,7 +64,7 @@
                                   @else
                                       Unpublish
                                   @endif --}}
-                                  <select name="publish" id="">
+                                  <select name="publish" class="form-control">
                                     @if ($pizzaEdit->publish_status==0)
                                     <option value="0" selected>Publish</option>
                                     <option value="1">Unpublish</option>
@@ -77,7 +77,7 @@
                               </div>
                               <div class="">
                                   <label>Category :</label>
-                              <select name="category" id="">
+                              <select name="category" id="" class="form-control">
                                 {{-- <option value="">Choose Options...</option> --}}
                                 @foreach ($category as $item)
                             
@@ -92,40 +92,35 @@
                               </div><br>
                               <div class="">
                                   <label>Discount:</label>
-                                  <input type="text" name="discount" value="{{ old('discount',$pizzaEdit->discount_price) }} " ><br>
+                                  <input type="text" name="discount" value="{{ old('discount',$pizzaEdit->discount_price) }} " class="form-control"><br>
                                   @if ($errors->has('discount'))
                                     <span class="text-danger">{{ $errors->first('discount') }}</span>
                                   @endif
-                              </div><br>
-                              <h6 class="ms-4">Buy 1 Get 1 :</h6>
-                              <div class="form-check float-left">
-                               
-                               @if ($pizzaEdit->buy_one_get_one_status==1)
-                           
-                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="buyOneGetOne">
-                              
-                               <label class="form-check-label" for="flexCheckDefault">
-                         Yes
-                               </label>&nbsp; &nbsp; &nbsp; &nbsp;
-                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked name="buyOneGetOne">
-                               <label class="form-check-label" for="flexCheckDefault">
-                               No
-                               </label>
-                               
-                                 
-                               @else
-                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked name="buyOneGetOne">
-                                <label class="form-check-label" for="flexCheckChecked">
-                                 Yes
-                                </label> &nbsp; &nbsp; &nbsp;
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="buyOneGetOne">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                No
-                                </label>
                               </div>
-                               @endif
-                              </div><br><br>
+                              <div class="col-sm-10">
+                                <label>Buy 1 Get 1</label>
+                                {{-- @if ($pizzaEdit->buy_one_get_one_status==0)
+                                <input type="radio" name="buyOneGetOne" class="form-input-check" value="0" checked class="form-control">Yes
+                                <input type="radio" name="buyOneGetOne" class="form-input-check" value="1">No
+                                @else
+                                <input type="radio" name="buyOneGetOne" class="form-input-check" value="0">Yes
+                                <input type="radio" name="buyOneGetOne" class="form-input-check" value="1" class="form-control">checked>No
+                                @endif --}}
+                           <select name="buyOneGetOne" class="form-control">
+                             @if ($pizzaEdit->buy_one_get_one_status==0)
+                             <option value="" selected>Yes</option>
+                               <option value="">No</option>
+                               @else
+                               <option value="" >Yes</option>
+                               <option value="" selected>No</option>
+                             @endif
+                           </select>
+                           
+     
+                                   @if ($errors->has('buyOneGetOne'))
+                                       <p class="text-danger">{{ $errors->first('buOneGetOne') }}</p>
+                                   @endif
+                                 </div>
                               
                               <div class="">
                                   <label>Waiting Time:</label>

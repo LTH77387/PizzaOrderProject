@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('pizzas', function (Blueprint $table) {
             $table->id('pizza_id');
             $table->string('pizza_name');
-            $table->string('pizza_image');
+            $table->string('image');
             $table->integer('price');
             $table->boolean('publish_status');
             $table->integer('category_id');

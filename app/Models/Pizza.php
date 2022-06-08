@@ -10,7 +10,7 @@ class Pizza extends Model
     use HasFactory;
     protected $fillable = [
         'pizza_name',
-        'pizza_image',
+        'image',
         'price',
         'publish_status',
         'category_id',

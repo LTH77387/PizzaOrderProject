@@ -127,6 +127,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           @endif
+          {{-- pizza update --}}
+          @if (Session::has('updatePizzaData'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('updatePizzaData') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          @endif
         <div class="row mt-4">
           <div class="col-12">
             <div class="card">
@@ -135,6 +142,8 @@
                 <h3 class="card-title">Pizza Table</h3>
 
                 <div class="card-tools">
+                 <form action="{{ route('pizzaSearch') }}" method="POST">
+                   @csrf
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
@@ -144,6 +153,7 @@
                       </button>
                     </div>
                   </div>
+                 </form>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -173,7 +183,7 @@
                   <td>{{ $item->pizza_id}}</td>
                   <td>{{ $item->pizza_name }}</td>
                   <td>
-                    <img src="{{ asset('/uploads/' . $item->pizza_image) }}" class="img-thumbnail" width="100px" height="100px">
+                    <img src="{{ asset('/uploads/' . $item->image) }}" class="img-thumbnail" width="100px" height="100px">
                   </td>
                   <td>{{ $item->price }} kyats</td>
                   <td>

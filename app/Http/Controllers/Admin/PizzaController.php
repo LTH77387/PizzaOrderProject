@@ -41,8 +41,8 @@ class PizzaController extends Controller
  
     //delete 
 public function deletePizza($id){
-    $data=Pizza::select('pizza_image')->where('pizza_id',$id)->first();
-    $fileName=$data['pizza_image'];
+    $data=Pizza::select('image')->where('pizza_id',$id)->first();
+    $fileName=$data['image'];
     Pizza::where('pizza_id',$id)->delete();
     if(File::exists(public_path() . '/uploads/' . $fileName)){
             File::delete(public_path() . '/uploads/' . $fileName);
@@ -53,29 +53,16 @@ public function deletePizza($id){
     public function pizzaEdit($id){
       
         $create=Category::get();
-        // return $create;
-// dd($create->category_id);
         $users = Pizza::select('pizzas.*','categories.category_id','categories.category_name')
         ->join('categories','pizzas.category_id','=','categories.category_id')
         ->where('pizza_id',$id)
-            ->get();
-       $data=Pizza::where('pizza_id',$id)->first();
-        // $pizza=Pizza::where('pizza_id',$id)->first();
-        return view('admin.pizza.edit')->with(['category'=>$create,'pizzaEdit'=>$data]);
+            ->first();
+         
+     
+        
+        return view('admin.pizza.edit')->with(['category'=>$create,'pizzaEdit'=>$users]);
 
-        // $category= Category::where('category_id',$id)->first();
        
-        // $data=Pizza::
-        // 
-        // ->where('pizza_id',$id)
-        // ->first();
-    // $data=Pizza::where('pizza_id',$id)->first();
-  
-    // $data=Pizza::select('pizzas.*','categories.category_name','categories.category_id')
-    //         ->join('categories','pizzas.category_id','=','categories.category_id')
-    //         
-    //         ->first();
-    //         dd($data->category_name);
     
     }
    
@@ -91,7 +78,7 @@ public function deletePizza($id){
             'description'=>'required',
             'price'=>'required',
             'publish'=>'required',
-            // 'category'=>'required',
+            'category'=>'required',
             'discount'=>'required',
             'waitingTime'=>'required',
         ]);
@@ -111,79 +98,71 @@ public function deletePizza($id){
         
  }
  //update
- public function editData($id, Request $request){
- 
-    $updateData=$this->getUpdateData($request);
-   if($updateData['image']){
-    
-        $data=Pizza::select('pizza_image')->where('pizza_id',$id)->first();
-        $fileName=$data['pizza_image'];
-       
-        if(File::exists(public_path().'/uploads/'.$fileName)){
-     File::delete(public_path().'/uploads/'.$fileName);
+ public function updatePizza($id, Request $request){
+    $validator = Validator::make($request->all(), [
+           
+        'name'=>'required',
+        // 'image'=>'required',
+        'description'=>'required',
+        'price'=>'required',
+        'publish'=>'required',
+        'category'=>'required',
+        'discount'=>'required',
+        'waitingTime'=>'required',
+    ]);
 
-     }
-   //get new img data
-     $file=$request->file('pizza_image');
-     $fileName=uniqid().'_' . $file->getClientOriginalName();
-    
-     $file->move(public_path() . '/uploads/' , $fileName);
-     $updateData['pizza_image']=$fileName;
- 
-    Pizza::where('pizza_id',$id)->update($updateData);
-    // return redirect()->route('pizzaGet');
-      }
-    //   else{
-    //     Pizza::where('pizza_id',$id)->update($updateData);
-    //     return redirect()->route('pizzaGet');
-    //   }
- 
-//    }else{
-//          
-//      return redirect()->route('pizzaGet')->with(['pizzaUpdateSuccess'=>"Pizza data updated successfully!!"]);
-//    }
-//    else{
-//        Pizza::where('pizza_id',$id)->update($updateData);
-//        return view('admin.pizza.list');
-//    }
- 
-//     $update=$this->getUpdateData($request,$fileName);
-//   if(isset($update['image'])){
-//       $data=Pizza::select('image')->where('pizza_id',$id)->first();
-//     $fileName=$data['image'];
-//   
-//   //get new image data
-//   $file=$request->file('image');
-//   
-//  
+    if ($validator->fails()) {
+        return    back()
+                    ->withErrors($validator)
+                    ->withInput();
+                  
+    }
+ $updateData=$this->requestUpdatePizzaData($request);
+//  dd($updateData);
+if(isset($updateData['image'])){
+    $data=Pizza::select('image')->where('pizza_id',$id)->first();
+    $fileName=$data['image'];
+    // dd($fileName);
+    if(File::exists(public_path() . '/uploads/' . $fileName)){
+        File::delete(public_path() . '/uploads/' . $fileName);
+     
+        //get new img data
+        $file=$request->file('image');
   
-//   $update['image']=$fileName;
-//   Pizza::where('pizza_id',$id)->update($update);
-//   return view('admin.pizza.list')->with(['updateSuccess'=>"Pizza Data are updated successfully!!"]);
-//   }
-//   else{
-//       Pizza::where('pizza_id',$id)->update($update);
-//       return redirect()->route('pizzaGet')->with(['updatePizza'=>"Updated data successfully!"]);
-//   }
-//  $data=[
-//     'pizza_name'=>$request->name,
-//     'pizza_image'=>$fileName,
-//     'price'=>$request->price,
-//     'publish_status'=>$request->publish,
-//     'category_id'=>$request->category,
-//     'discount_price'=>$request->discount,
-//     'buy_one_get_one_status'=>$request->buyOneGetOne,
-//     'waiting_time'=>$request->waitingTime,
-//     'description'=>$request->description,
-// ];
+        $fileName=uniqid() . '_' . $file->getClientOriginalName();
+    
+        $file->move(public_path() . '/uploads/' , $fileName);
+ 
+        $updateData['image']=$fileName;
+     
+        Pizza::where('pizza_id',$id)->update($updateData);
+return redirect()->route('pizzaGet')->with(['updatePizzaData'=>"Pizza data updated successfully!"]);
+      
+}
+}
+else{
 
-
+    Pizza::where('pizza_id',$id)->update($updateData);
+    return redirect()->route('pizzaGet')->with(['updatePizzaData'=>"Pizza data updated successfully!"]);
+}
 
  }
- private function requestPizzaData($request,$fileName){
-    return [
+ //search pizza data
+ public function pizzaSearch(Request $request){
+        $searchKey=$request->table_search;
+      $searchData=Pizza::orWhere('pizza_name','like','%' . $searchKey . '%')
+      ->orWhere('price',$searchKey)
+      ->paginate(5);
+      if(count($searchData)==0){
+          $emptyStatus=0;
+      }else{
+          $emptyStatus=1;
+      }
+      return view('admin.pizza.list')->with(['status'=>$emptyStatus,'pizzaShow'=>$searchData]);
+}
+ private function requestUpdatePizzaData($request){
+    $arr=[
         'pizza_name'=>$request->name,
-        'pizza_image'=>$fileName,
         'price'=>$request->price,
         'publish_status'=>$request->publish,
         'category_id'=>$request->category,
@@ -192,11 +171,16 @@ public function deletePizza($id){
         'waiting_time'=>$request->waitingTime,
         'description'=>$request->description,
     ];
-    }
-    private function getUpdateData($request){
-        $arr=[
-            'pizza_name'=>$request->name,
-       
+ 
+     if(isset($request->image)){
+       $arr['image']=$request->image;
+     }
+     return $arr;
+ }
+ private function requestPizzaData($request,$fileName){
+    return [
+        'pizza_name'=>$request->name,
+        'image'=>$fileName,
         'price'=>$request->price,
         'publish_status'=>$request->publish,
         'category_id'=>$request->category,
@@ -204,13 +188,7 @@ public function deletePizza($id){
         'buy_one_get_one_status'=>$request->buyOneGetOne,
         'waiting_time'=>$request->waitingTime,
         'description'=>$request->description,
-
-
-        ];
-        if(isset($request->pizza_image)){
-            $arr['pizza_image']=$request->image;
-        }
-        
+    ];
     }
 
 

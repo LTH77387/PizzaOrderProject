@@ -13,12 +13,7 @@ class CategoryController extends Controller
     public function index(){
         return view('admin.home');
     }
-    public function profile(){
-        $id=auth()->user()->id;
-        $userData=User::where('id',$id)->first();
-        
-        return view('admin.profile.index')->with(['profileShow'=>$userData]);
-    }
+    
     public function category(){
         $data=Category::paginate(5);
         return view('admin.category.list')->with(['showCategory'=>$data]);

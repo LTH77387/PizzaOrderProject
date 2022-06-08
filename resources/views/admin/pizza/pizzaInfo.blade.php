@@ -28,7 +28,7 @@
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
                      <div class="text-center">
-                        <img src="{{ asset('/uploads/' . $pizzaInfo->pizza_image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px">
+                        <img src="{{ asset('/uploads/' . $pizzaInfo->image) }}" class="img-thumbnail" width="100px" height="100px" class="rounded-circle" style="border-radius: 30px">
                     </div>
                         <div class="text-center">
                             <div class="">

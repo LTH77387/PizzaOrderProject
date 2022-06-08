@@ -4,8 +4,10 @@ use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PizzaController;
 use App\Http\Controllers\Admin\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +36,7 @@ Route::middleware(['auth:sanctum','verified'])->get('/dashboard',function(){
 
 Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
     Route::get('/',[CategoryController::class,'index'])->name('admin');
-    Route::get('profile',[CategoryController::class,'profile'])->name('profile');
+   Route::get('profile',[AdminController::class,'profile'])->name('profile');
     Route::get('category',[CategoryController::class,'category'])->name('category');
     Route::get('pizzaGet',[PizzaController::class,'pizzaGet'])->name('pizzaGet');
     Route::get('pizza',[PizzaController::class,'pizza'])->name('pizza');
@@ -49,10 +51,13 @@ Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
     Route::get('deletePizza/{id}',[PizzaController::class,'deletePizza'])->name('deletePizza');
     Route::get('pizzaInfo/{id}',[PizzaController::class,'pizzaInfo'])->name('pizzaInfo');
     Route::get('pizzaEdit{id}',[PizzaController::class,'pizzaEdit'])->name('pizzaEdit');
-   Route::post('editData{id}',[PizzaController::class,'editData'])->name('editData');
+   Route::post('updatePizza{id}',[PizzaController::class,'updatePizza'])->name('updatePizza');
+   Route::post('updateUserData{id}',[AdminController::class,'updateUserData'])->name('updateUserData');
+   Route::get('userChangePasswordPage',[AdminController::class,'userChangePasswordPage'])->name('userChangePasswordPage');
+   Route::post('changePassword/{id}',[AdminController::class,'changePassword'])->name('changePassword');
     //edit Pizza direct page
     // Route::get('editPizza',[PizzaController::class,'editPizza'])->name('editPizza');
-
+route::post('pizzaSearch',[PizzaController::class,'pizzaSearch'])->name('pizzaSearch');
 });
 Route::group(['prefix'=>'user'],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
