@@ -20,7 +20,7 @@
                 <div class="card-body">
                   <div class="tab-content">
                     <div class="active tab-pane" id="activity">
-                      <form class="form-horizontal" method="POST" action="">
+                      <form class="form-horizontal" method="POST" action="{{ route('updateUserData',Auth()->user()->id) }}">
                         @csrf
                         <div class="form-group row">
                           <label for="inputName" class="col-sm-2 col-form-label">Name</label>
@@ -68,7 +68,7 @@
                             @endif
                           </div>
                         </div>
-                      </form>
+                    
                         <div class="form-group row">
                           <div class="offset-sm-2 col-sm-10">
                             <a href="{{ route('userChangePasswordPage') }}">Change Password</a>
@@ -79,7 +79,7 @@
                           <input type="submit" value="Update" class="btn bg-dark text-white float-end">
                           </div>
                         </div>
-                    
+                      </form>
                       
                     </div>
                     </div>

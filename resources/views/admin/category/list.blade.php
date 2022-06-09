@@ -39,7 +39,7 @@
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
 
-                   <form action="{{ route('category') }}" method="POST"> <div class="input-group-append">
+                   <form action="{{ route('searchCategory') }}" method="GET"> <div class="input-group-append">
                    @csrf
                    <input type="text" name="searchCategory" class="form-control float-right" placeholder="Search">
 
@@ -62,17 +62,21 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @foreach ($showCategory as $item)
-                    <tr>
-                   <td>{{ $item->category_id }}</td>
-                   <td>{{ $item->category_name }}</td>
-                   <td>1</td>
-                     <td>
-                     <a href="{{ route('editCategory',$item->category_id) }}">  <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
-                       <a href="{{ route('deleteCategory',$item->category_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
-                     </td>
-                    </tr>
-                  @endforeach
+                {{-- @if () --}}
+                  
+                {{-- @else --}}
+                @foreach ($showCategory as $item)
+                <tr>
+               <td>{{ $item->category_id }}</td>
+               <td>{{ $item->category_name }}</td>
+               <td>1</td>
+                 <td>
+                 <a href="{{ route('editCategory',$item->category_id) }}">  <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
+                   <a href="{{ route('deleteCategory',$item->category_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
+                 </td>
+                </tr>
+              @endforeach
+                {{-- @endif --}}
                    
                   </tbody>
                 </table>

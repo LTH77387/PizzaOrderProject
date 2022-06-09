@@ -14,13 +14,13 @@ class PizzaController extends Controller
 {
     public function pizzaGet(){
 
-        $data=Pizza::paginate(5);
+        $data=Pizza::paginate(3);
         if(count($data)==0){
-            $emptyStauts=0;
+            $emptyStatus=0;
         }else{
-            $emptyStauts=1;
+            $emptyStatus=1;
         }
-        return view('admin.pizza.list')->with(['pizzaShow'=>$data,'status'=>$emptyStauts]);
+        return view('admin.pizza.list')->with(['pizzaShow'=>$data,'status'=>$emptyStatus]);
     }
     public function pizza(){
         $create=Category::get();
@@ -152,12 +152,14 @@ else{
         $searchKey=$request->table_search;
       $searchData=Pizza::orWhere('pizza_name','like','%' . $searchKey . '%')
       ->orWhere('price',$searchKey)
-      ->paginate(5);
+      ->paginate(3);
+      $searchData->appends($request->all());
       if(count($searchData)==0){
           $emptyStatus=0;
       }else{
           $emptyStatus=1;
       }
+    
       return view('admin.pizza.list')->with(['status'=>$emptyStatus,'pizzaShow'=>$searchData]);
 }
  private function requestUpdatePizzaData($request){

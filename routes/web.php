@@ -3,11 +3,10 @@
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PizzaController;
 use App\Http\Controllers\Admin\CategoryController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +46,7 @@ Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
     Route::get('deleteCategory/{id}',[CategoryController::class,'deleteCategory'])->name('deleteCategory');
     Route::post('createPizza',[PizzaController::class,'createPizza'])->name('createPizza');
     Route::get('pizzaCreate',[PizzaController::class,'pizza'])->name('pizzaCreate');
-    Route::post('category',[CategoryController::class,'searchCategory'])->name('category');
+    Route::get('category/search',[CategoryController::class,'searchCategory'])->name('searchCategory');
     Route::get('deletePizza/{id}',[PizzaController::class,'deletePizza'])->name('deletePizza');
     Route::get('pizzaInfo/{id}',[PizzaController::class,'pizzaInfo'])->name('pizzaInfo');
     Route::get('pizzaEdit{id}',[PizzaController::class,'pizzaEdit'])->name('pizzaEdit');
@@ -56,8 +55,20 @@ Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
    Route::get('userChangePasswordPage',[AdminController::class,'userChangePasswordPage'])->name('userChangePasswordPage');
    Route::post('changePassword/{id}',[AdminController::class,'changePassword'])->name('changePassword');
     //edit Pizza direct page
-    // Route::get('editPizza',[PizzaController::class,'editPizza'])->name('editPizza');
-route::post('pizzaSearch',[PizzaController::class,'pizzaSearch'])->name('pizzaSearch');
+Route::get('pizzaSearch/search',[PizzaController::class,'pizzaSearch'])->name('pizzaSearch');
+//user
+Route::get('getUserListPage',[UserController::class,'getUserListPage'])->name('getUserListPage');
+//both func name and route name change but the route get is the same as the getUserListPage
+Route::get('getUserListPage/search',[UserController::class,'userListSearch'])->name('userListSearch');
+Route::get('userListDelete/{id}',[UserController::class,'userListDelete'])->name('userListDelete');
+
+
+Route::get('getAdminListPage',[UserController::class,'getAdminListPage'])->name('getAdminListPage');
+Route::get('getAdminListPgae/search',[UserController::class,'adminListSearch'])->name('adminListSearch');
+
+Route::get('adminListDelete/{id}',[UserController::class,'adminListDelete'])->name('adminListDelete');
+
+
 });
 Route::group(['prefix'=>'user'],function(){
     Route::get('/',[UserController::class,'index'])->name('user');

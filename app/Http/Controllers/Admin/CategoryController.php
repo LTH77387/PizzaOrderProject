@@ -56,6 +56,14 @@ class CategoryController extends Controller
     public function searchCategory(Request $request){
 
         $data=Category::where('category_name','like','%'.$request->searchCategory.'%')->paginate(5);
-        return view('admin.category.list')->with(['showCategory'=>$data]);
+       
+        if(count($data)==0){
+            $emptyStatus=0;
+        }else{
+            $emptyStatus=1;
+        }
+       
+       $data->appends($request->all());
+        return view('admin.category.list')->with(['showCategory'=>$data,'status'=>$emptyStatus]);
     }
 }
