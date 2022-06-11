@@ -118,9 +118,9 @@ public function deletePizza($id){
                   
     }
  $updateData=$this->requestUpdatePizzaData($request);
-//  dd($updateData);
 if(isset($updateData['image'])){
     $data=Pizza::select('image')->where('pizza_id',$id)->first();
+   
     $fileName=$data['image'];
     // dd($fileName);
     if(File::exists(public_path() . '/uploads/' . $fileName)){
@@ -141,8 +141,9 @@ return redirect()->route('pizzaGet')->with(['updatePizzaData'=>"Pizza data updat
 }
 }
 else{
-
+  
     Pizza::where('pizza_id',$id)->update($updateData);
+  
     return redirect()->route('pizzaGet')->with(['updatePizzaData'=>"Pizza data updated successfully!"]);
 }
 
@@ -169,7 +170,7 @@ else{
         'publish_status'=>$request->publish,
         'category_id'=>$request->category,
         'discount_price'=>$request->discount,
-        'buy_one_get_one_status'=>$request->buyOneGetOne,
+        'buy_one_get_one_status'=>$request->buy_one_get_one_status,
         'waiting_time'=>$request->waitingTime,
         'description'=>$request->description,
     ];
@@ -187,7 +188,7 @@ else{
         'publish_status'=>$request->publish,
         'category_id'=>$request->category,
         'discount_price'=>$request->discount,
-        'buy_one_get_one_status'=>$request->buyOneGetOne,
+        'buy_one_get_one_status'=>$request->buy_one_get_one_status,
         'waiting_time'=>$request->waitingTime,
         'description'=>$request->description,
     ];

@@ -100,11 +100,12 @@
                           <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Buy One Get One</label>
                             <div class="col-sm-10">
-                           <input type="radio" name="buyOneGetOne" class="form-input-check" value="1">No
-                           <input type="radio" name="buyOneGetOne" class="form-input-check" value="0">Yes
+                              <input type="radio" name="buy_one_get_one_status" class="form-input-check" value="0">Yes
+                           <input type="radio" name="buy_one_get_one_status" class="form-input-check" value="1">No
+                         
 
-                              @if ($errors->has('buyOneGetOne'))
-                                  <p class="text-danger">{{ $errors->first('buOneGetOne') }}</p>
+                              @if ($errors->has('buy_one_get_one_status'))
+                                  <p class="text-danger">{{ $errors->first('buy_one_get_one_status') }}</p>
                               @endif
                             </div>
                           </div>

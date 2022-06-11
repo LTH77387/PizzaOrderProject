@@ -28,6 +28,7 @@
                 </h3>
 
                 <div class="card-tools">
+                  <span class="float-right">Total Results- {{ $userList->total()}}</span><br><br>
                   <div class="input-group input-group-sm" style="width: 150px;">
 
                    <form action="{{ route('userListSearch') }}" method="GET"> <div class="input-group-append">
@@ -54,37 +55,39 @@
                     </tr>
                   </thead>
                   <tbody>
-                  {{-- @if (isEmpty($userList)) --}}
-                    {{-- <tr>
-                      <td colspan="5">
-                        <small class="text-muted">There is no data.</small>
-                      </td>
-                    </tr>
-                   --}}
-                 
+                 @if ($userList->total()==0)
+                 <tr>
+                   <td colspan="5">
+                     <span class="text-muted">No Results!</span>
+                   </td>
+                 </tr>
+
+                   @else
+                   @foreach ($userList as $item)
+                   <tr>
+                       <td>{{ $item->id }}</td>
+                  <td>{{ $item->name }}</td>
+                  <td>{{ $item->email }}</td>
+                  <td>{{ $item->phone }}</td>
+                  <td>{{ $item->address }}</td>
+                  <td>
+ 
+                     <a href="{{ route('userListDelete',$item->id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
+                   </td>
+ 
+                   </tr>
+                 @endforeach
+                 @endif
                 
-                  {{-- @else --}}
-                  @foreach ($userList as $item)
-                  <tr>
-                      <td>{{ $item->id }}</td>
-                 <td>{{ $item->name }}</td>
-                 <td>{{ $item->email }}</td>
-                 <td>{{ $item->phone }}</td>
-                 <td>{{ $item->address }}</td>
-                 <td>
-
-                    <a href="{{ route('userListDelete',$item->id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
-                  </td>
-
-                  </tr>
-                @endforeach
-              {{-- @endif --}}
+                 
+                 
+            
                   
                  
                  
                 
                  
-                  {{-- @endif --}}
+              
                  
                    
                   </tbody>

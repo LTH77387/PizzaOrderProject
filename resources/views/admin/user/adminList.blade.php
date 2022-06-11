@@ -28,6 +28,7 @@
                 </h3>
 
                 <div class="card-tools">
+                  <span class="float-right">Total Results- {{ $adminList->total()}}</span><br><br>
                   <div class="input-group input-group-sm" style="width: 150px;">
 
                    <form action="{{ route('adminListSearch') }}" > <div class="input-group-append">
@@ -54,7 +55,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @foreach ($adminList as $item)
+                    @if ($adminList->total()==0)
+                      <tr>
+                        <td colspan="5"><span class="text-muted">No Results!</span></td>
+                      </tr>
+                    @else
+                    @foreach ($adminList as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
                    <td>{{ $item->name }}</td>
@@ -68,6 +74,10 @@
                     </td>
                     </tr>
                   @endforeach
+                    @endif
+
+
+                
                    
                   </tbody>
                 </table>

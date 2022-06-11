@@ -106,13 +106,13 @@
                                 <input type="radio" name="buyOneGetOne" class="form-input-check" value="0">Yes
                                 <input type="radio" name="buyOneGetOne" class="form-input-check" value="1" class="form-control">checked>No
                                 @endif --}}
-                           <select name="buyOneGetOne" class="form-control">
+                           <select name="buy_one_get_one_status" class="form-control">
                              @if ($pizzaEdit->buy_one_get_one_status==0)
-                             <option value="" selected>Yes</option>
-                               <option value="">No</option>
+                             <option value="0" selected>Yes</option>
+                               <option value="1">No</option>
                                @else
-                               <option value="" >Yes</option>
-                               <option value="" selected>No</option>
+                               <option value="0" >Yes</option>
+                               <option value="1" selected>No</option>
                              @endif
                            </select>
                            

@@ -67,7 +67,7 @@ Route::get('getAdminListPage',[UserController::class,'getAdminListPage'])->name(
 Route::get('getAdminListPgae/search',[UserController::class,'adminListSearch'])->name('adminListSearch');
 
 Route::get('adminListDelete/{id}',[UserController::class,'adminListDelete'])->name('adminListDelete');
-
+ROUTE::get('categoryItem{id}',[UserController::class,'categoryItem'])->name('categoryItem');
 
 });
 Route::group(['prefix'=>'user'],function(){

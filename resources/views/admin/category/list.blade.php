@@ -35,10 +35,11 @@
                 <h3 class="card-title">
                <a href="{{ route('addCategory') }}">   <button class="btn btn-sm btn-outline-dark" >Add Category</button></a>
                 </h3>
-
+               
                 <div class="card-tools">
+                 
                   <div class="input-group input-group-sm" style="width: 150px;">
-
+                    <span class="float-right">Total Results- {{ $showCategory->total()}}</span><br><br>
                    <form action="{{ route('searchCategory') }}" method="GET"> <div class="input-group-append">
                    @csrf
                    <input type="text" name="searchCategory" class="form-control float-right" placeholder="Search">
@@ -53,6 +54,7 @@
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap text-center">
+                 
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -62,22 +64,35 @@
                     </tr>
                   </thead>
                   <tbody>
-                {{-- @if () --}}
-                  
-                {{-- @else --}}
+               
+                @if ($showCategory->total()==0)
+                  <tr>
+                    <td colspan="3" class="text-muted">There is no result.</td>
+                  </tr>
+                @else
                 @foreach ($showCategory as $item)
                 <tr>
                <td>{{ $item->category_id }}</td>
                <td>{{ $item->category_name }}</td>
-               <td>1</td>
-                 <td>
+                <td>
+
+                  @if ($item->count==0)
+                    <a href="#" class="text-decoration-none">{{ $item->count }}</a>
+
+                  @else
+                    <a href="{{ route('categoryItem',$item->category_id) }}" class="text-decoration-none">{{ $item->count }}</a>
+                  @endif
+                </td>
+                  <td>
                  <a href="{{ route('editCategory',$item->category_id) }}">  <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
                    <a href="{{ route('deleteCategory',$item->category_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
                  </td>
                 </tr>
               @endforeach
-                {{-- @endif --}}
-                   
+                @endif
+             
+             
+             
                   </tbody>
                 </table>
                 {{ $showCategory->links() }}

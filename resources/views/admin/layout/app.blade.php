@@ -78,22 +78,22 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="carrier.html" class="nav-link">
               <i class="fas fa-biking"></i>
               <p>
                 Carrier
               </p>
             </a>
-          </li>
+          </li> --}}
 
       <form action="{{ route('logout') }}" method="POST">
         @csrf
         <li class="nav-item ">
          
          
-            
-            <input type="submit" value="Logout" class="nav-item">
+         
+            <input type="submit" value="Logout" class="nav-item btn bg-dark">
         </li>
       </form>
         </ul>
