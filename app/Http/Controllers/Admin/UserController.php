@@ -11,7 +11,9 @@ use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
     public function index(){
-        return view('user.home');
+        $pizza=Pizza::where('publish_status',1)->get();
+      
+        return view('user.home')->with(['pizza'=>$pizza]);
     }
     public function getUserListPage(){
         $userData=User::where('role','=','user')->paginate(5);
@@ -53,7 +55,9 @@ public function categoryItem($id){
  
     
 }
-
+public function userCreate(Request $request){
+    dd($request);
+}
 
     private function search($role,$request){
         $searchData=User::where('role',$role)->where(function ($query) use($request){

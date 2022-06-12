@@ -67,11 +67,13 @@ Route::get('getAdminListPage',[UserController::class,'getAdminListPage'])->name(
 Route::get('getAdminListPgae/search',[UserController::class,'adminListSearch'])->name('adminListSearch');
 
 Route::get('adminListDelete/{id}',[UserController::class,'adminListDelete'])->name('adminListDelete');
-ROUTE::get('categoryItem{id}',[UserController::class,'categoryItem'])->name('categoryItem');
-
+Route::get('categoryItem{id}',[UserController::class,'categoryItem'])->name('categoryItem');
+//user controller user home page 
+Route::get('user/create',[UserController::class,'userCrate'])->name('userCreate');
 });
 Route::group(['prefix'=>'user'],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
+
 });
 
 

@@ -79,9 +79,9 @@
                   <td>{{ $item->price }} kyats</td>
                   <td>
                     @if ($item->publish_status==0)
-                      Publish
+                    Unpublish
                       @elseif ($item->publish_status==1)
-                      Unpublish
+                      Publish
                     @endif
                   </td>
                   <td>
