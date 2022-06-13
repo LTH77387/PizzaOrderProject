@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+
 use App\Models\User;
 use App\Models\Pizza;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
 {
     public function index(){
         $pizza=Pizza::where('publish_status',1)->get();
-      
         return view('user.home')->with(['pizza'=>$pizza]);
     }
     public function getUserListPage(){
@@ -55,10 +56,25 @@ public function categoryItem($id){
  
     
 }
-public function userCreate(Request $request){
-    dd($request);
+public function pizzaDetails($id){
+  $data=Pizza::where('pizza_id',$id)->first();
+ return view('user.details') ->with(['pizzaDetails'=>$data]);
 }
-
+// public function userCreate(Request $request){
+//     dd($request);
+// }
+// public function userSend(Request $request){
+// $user=$this->requestUserData($request);
+// dd($user);
+// }
+// private function requestUserData(Request $request){
+//     return [
+//         'user_id'=>$request->auth()->user()->id,
+//         'name'=>$request->name,
+//         'email'=>$request->email,
+//         'message'=>$request->message,
+//     ];
+// }
     private function search($role,$request){
         $searchData=User::where('role',$role)->where(function ($query) use($request){
             $query->orWhere('name','like','%' . $request->ListSearch . '%')

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PizzaController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\User\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,11 +70,14 @@ Route::get('getAdminListPgae/search',[UserController::class,'adminListSearch'])-
 Route::get('adminListDelete/{id}',[UserController::class,'adminListDelete'])->name('adminListDelete');
 Route::get('categoryItem{id}',[UserController::class,'categoryItem'])->name('categoryItem');
 //user controller user home page 
-Route::get('user/create',[UserController::class,'userCrate'])->name('userCreate');
+Route::get('user/create',[UserController::class,'userCreate'])->name('userCreate');
+Route::get('contactShow',[ContactController::class,'contactShow'])->name('contactShow');
+Route::get('searchContact',[ContactController::class,'searchContact'])->name('searchContact');
 });
-Route::group(['prefix'=>'user'],function(){
+Route::group(['prefix'=>'user',"namespace"=>"User"],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
-
+    Route::get('userSend/{id}',[ContactController::class,'userSend'])->name('userSend');
+    Route::get('pizza/Details/{id}',[UserController::class,'pizzaDetails'])->name('pizzaDetails');
 });
 
 

@@ -1,7 +1,8 @@
 @extends('user.layouts.style')
 @section('style')
+
       <!-- Responsive navbar-->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-white bg-secondary sticky-top">
         <div class="container px-5">
             <a class="navbar-brand" href="#!">Pizza Order System</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -10,15 +11,26 @@
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pizza</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                   <form action="{{ route('logout') }}" method="POST">
                       @csrf
                       <li class="nav-item"><button class="nav-link btn btn-sm btn-outline-danger" type="submit">Logout</button></li>
                   </form>
+                 <li class="nav-item">
+                    <button type="button" class="btn btn-primary position-relative">
+                        <img src="{{ asset('assets/shopping-cart copy.png') }}" alt="" width="30px" height="30px">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="display">
+                         0
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </button>
+                 </li>
+             
                 </ul>
             </div>
         </div>
     </nav>
+
     <!-- Page Content-->
     <div class="container px-4 px-lg-5" id="home">
         <!-- Heading Row-->
@@ -76,8 +88,12 @@
                     <div class="col-md-4 mb-5">
                         <div class="card h-100">
                             <!-- Sale badge-->
-
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                            @if ($item->buy_one_get_one_status==0)
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                                Buy 1 Get 1
+                           
+                            </div>
+                            @endif
                             <!-- Product image-->
                             <img class="card-img-top" src="{{ asset('uploads/' . $item->image) }}" alt="...">
                             <!-- Product details-->
@@ -90,9 +106,14 @@
                                 </div>
                             </div>
                             <!-- Product actions-->
+                           <div class="" id="btn">
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                                <div class="text-center"><button  class="btn btn-outline-dark mt-auto">Add To Cart</button></div><br>
+                           <div class="text-center"> <a href="{{ route('pizzaDetails',$item->pizza_id) }}"><button class="btn bg-light text-dark">More Detials</button></a></div>
                             </div>
+                           
+                           </div>
+                         
                         </div>
                     </div>
                     @endforeach
@@ -106,17 +127,38 @@
             </div>
         </div>
     </div>
-
+    <form action="{{ route('userSend',auth()->user()->id) }}" class="my-4">
+        @csrf
     <div class="text-center d-flex justify-content-center align-items-center" id="contact">
+
         <div class="col-4 border shadow-sm ps-5 pt-5 pe-5 pb-2 mb-5">
+            @if (Session::has('contactSend'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('contactSend') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          @endif
             <h3>Contact Us</h3>
 
-            <form action="" class="my-4">
-                <input type="text" name="" id="" class="form-control my-3" placeholder="Name">
-                <input type="text" name="" id="" class="form-control my-3" placeholder="Email">
-                <textarea class="form-control my-3" id="exampleFormControlTextarea1" rows="3" placeholder="Message"></textarea>
-                <button type="submit" class="btn btn-outline-dark">Send  <i class="fas fa-arrow-right"></i></button>
+           
+             
+                <input type="text" name="name" id="" class="form-control my-3" placeholder="Name">
+                @if ($errors->has('name'))
+                <p class="text-danger">{{ $errors->first('name') }}</p>
+            @endif
+                <input type="text" name="email" id="" class="form-control my-3" placeholder="Email">
+                @if ($errors->has('email'))
+                <p class="text-danger">{{ $errors->first('email') }}</p>
+            @endif
+                <textarea class="form-control my-3" id="exampleFormControlTextarea1"  rows="3" placeholder="Message" name="message" style="resize: none"></textarea>
+                @if ($errors->has('message'))
+                <p class="text-danger">{{ $errors->first('message') }}</p>
+            @endif
+            <input type="submit" value="Send" class="btn bg-dark text-white">
             </form>
         </div>
     </div>
+
+  
+  
 @endsection

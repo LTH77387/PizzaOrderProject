@@ -78,14 +78,14 @@
             </a>
           </li>
 
-          {{-- <li class="nav-item">
-            <a href="carrier.html" class="nav-link">
-              <i class="fas fa-biking"></i>
+          <li class="nav-item">
+            <a href="{{ route('contactShow') }}" class="nav-link">
+              <i class="fas fa-address-book"></i>
               <p>
-                Carrier
+              Contact
               </p>
             </a>
-          </li> --}}
+          </li>
 
       <form action="{{ route('logout') }}" method="POST">
         @csrf
