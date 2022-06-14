@@ -78,6 +78,9 @@ Route::group(['prefix'=>'user',"namespace"=>"User"],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
     Route::get('userSend/{id}',[ContactController::class,'userSend'])->name('userSend');
     Route::get('pizza/Details/{id}',[UserController::class,'pizzaDetails'])->name('pizzaDetails');
+    Route::get('userCategory/{id}',[UserController::class,'userCategory'])->name('userCategory');
+    Route::get('category/search',[UserController::class,'userCategorySearch'])->name('userCategorySearch');
+    Route::get('dateSearch',[UserController::class,'dateSearch'])->name('dateSearch');
 });
 
 

@@ -12,6 +12,7 @@
                     <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pizza</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    
                   <form action="{{ route('logout') }}" method="POST">
                       @csrf
                       <li class="nav-item"><button class="nav-link btn btn-sm btn-outline-danger" type="submit">Logout</button></li>
@@ -33,6 +34,7 @@
 
     <!-- Page Content-->
     <div class="container px-4 px-lg-5" id="home">
+      
         <!-- Heading Row-->
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" id="code-lab-pizza" src="https://www.pizzamarumyanmar.com/wp-content/uploads/2019/04/chigago.jpg" alt="..." /></div>
@@ -45,21 +47,24 @@
 
         <!-- Content Row-->
         <div class="d-flex justify-content-around">
+        
             <div class="col-3 me-5">
+               
                 <div class="">
                     <div class="py-5 text-center">
-                        <form class="d-flex m-5">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-dark" type="submit">Search</button>
+                       
+                        <form class="d-flex m-5" method="GET" action="{{ route('userCategorySearch') }}">
+                           @csrf
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="userCategorySearch">
+                            <button class="btn btn-outline-dark" type="submit" >Search</button>
                         </form>
 
                         <div class="">
-                            <div class="m-2 p-2">All</div>
-                            <div class="m-2 p-2">Seafood</div>
-                            <div class="m-2 p-2">Chicken</div>
-                            <div class="m-2 p-2">Cheese</div>
-                            <div class="m-2 p-2">BBQ</div>
-                            <div class="m-2 p-2">Ocean</div>
+                            <div class="m-2 p-2"><a href="{{ route('user') }}" class="text-decoration-none text-dark">All</a></div>
+                            @foreach ($categoryData as $item)
+                            <div class="m-2 p-2"><a href="{{ route('userCategory',$item->category_id) }}" class="text-decoration-none text-dark">{{ $item->category_name }}</a></div>
+                                
+                            @endforeach
                         </div>
                         <hr>
                         <div class="text-center m-4 p-2">
@@ -74,49 +79,61 @@
                         <div class="text-center m-4 p-2">
                             <h3 class="mb-3">Min - Max Amount</h3>
 
-                            <form>
-                                <input type="number" name="" id="" class="form-control" placeholder="minimum price"> -
-                                <input type="number" name="" id="" class="form-control" placeholder="maximun price">
+                            <form method="GET" action="{{ route('dateSearch') }}">
+                                @csrf
+                                <input type="number" name="minPrice" id="" class="form-control" placeholder="minimum price" value="{{ old('minPrice') }}"> -
+                                <input type="number" name="maxPrice" id="" class="form-control" placeholder="maximun price" value="{{ old('maxPrice') }}"><br>
+                                <input type="submit" value="Search" class="btn bg-dark text-white">
                             </form>
                         </div>
                     </div>
                 </div>
+               
             </div>
             <div class="mt-5">
+              
                 <div class="row gx-4 gx-lg-5" id="pizza">
-                    @foreach ($pizza as $item)
-                    <div class="col-md-4 mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            @if ($item->buy_one_get_one_status==0)
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
-                                Buy 1 Get 1
-                           
-                            </div>
-                            @endif
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ asset('uploads/' . $item->image) }}" alt="...">
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span> $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                           <div class="" id="btn">
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><button  class="btn btn-outline-dark mt-auto">Add To Cart</button></div><br>
-                           <div class="text-center"> <a href="{{ route('pizzaDetails',$item->pizza_id) }}"><button class="btn bg-light text-dark">More Detials</button></a></div>
-                            </div>
-                           
+                   @if ($count==0)
+                    <p class="text-center text-danger">There is no pizza data.</p>
+
+                   @else
+                   @foreach ($pizza as $item)
+                   <div class="col-md-6 mb-5">
+                       <div class="card h-100" style="width: 270px">
+                           <!-- Sale badge-->
+                           @if ($item->buy_one_get_one_status==0)
+                           <div class="badge bg-danger
+                            text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                               Buy 1 Get 1
+                          
                            </div>
-                         
-                        </div>
-                    </div>
-                    @endforeach
+                           @endif
+                           <!-- Product image-->
+                           <img class="card-img-top" src="{{ asset('uploads/' . $item->image) }}" alt="...">
+                           <!-- Product details-->
+                           <div class="card-body p-4">
+                               <div class="text-center">
+                                   <!-- Product name-->
+                                   <h5 class="fw-bolder">{{ $item->pizza_name }}</h5>
+                                   <!-- Product price-->
+                                   {{-- <span class="text-muted text-decoration-line-through">$20.00</span> $18.00 --}}
+                                   <span class="fs-5">{{ $item->price }} <b>MMK</b></span>
+                               </div>
+                           </div>
+                           <!-- Product actions-->
+                          <div class="" id="btn">
+                           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                               <div class="text-center"><button  class="btn btn-outline-dark mt-auto">Add To Cart</button></div><br>
+                          <div class="text-center"> <a href="{{ route('pizzaDetails',$item->pizza_id) }}"><button class="btn bg-light text-dark">More Detials</button></a></div>
+                           </div>
+                          
+                          </div>
+                        
+                       </div>
+                   </div>
+                   @endforeach
+                   @endif
+                 
 
             
 
