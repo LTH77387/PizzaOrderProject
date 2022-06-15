@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PizzaController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\ContactController;
+use App\Http\Controllers\User\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,8 @@ Route::group(['prefix'=>'user',"namespace"=>"User"],function(){
     Route::get('userCategory/{id}',[UserController::class,'userCategory'])->name('userCategory');
     Route::get('category/search',[UserController::class,'userCategorySearch'])->name('userCategorySearch');
     Route::get('dateSearch',[UserController::class,'dateSearch'])->name('dateSearch');
+    Route::get('order',[OrderController::class,'order'])->name('order');
+    Route::post('placeOrder',[OrderController::class,'placeOrder'])->name('placeOrder');
 });
 
 

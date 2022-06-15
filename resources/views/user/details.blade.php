@@ -4,7 +4,7 @@
    
     <div class="col-4 ">
         <img src="{{ asset('uploads/' . $pizzaDetails->image) }}" class="img-thumbnail" width="300px">            <br>
-        <button class="btn btn-primary float-end mt-2 col-12"><i class="fas fa-shopping-cart"></i> Buy</button>
+       <a href="{{ route('order') }}"> <button class="btn btn-primary float-end mt-2 col-12"><i class="fas fa-shopping-cart"></i> Order Now</button></a>
         <a href="{{ route('user') }}">
             <button class="btn bg-dark text-white" style="margin-top: 20px;">
                 <i class="fas fa-backspace"></i> Back

@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Pizza;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 
 class UserController extends Controller
@@ -65,6 +66,8 @@ public function categoryItem($id){
 }
 public function pizzaDetails($id){
   $data=Pizza::where('pizza_id',$id)->first();
+  $pizzaData=Session::put('PIZZA_INFO',$data);
+
  return view('user.details') ->with(['pizzaDetails'=>$data]);
 }
 // public function userCreate(Request $request){
