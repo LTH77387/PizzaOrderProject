@@ -9,7 +9,7 @@
     <section class="content">
 
       <div class="container-fluid">
-        @if (Session::has('addCategory'))
+        {{-- @if (Session::has('addCategory'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ Session::get('addCategory') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -26,24 +26,22 @@
               {{ Session::get('deleteCategory') }}
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            @endif
+            @endif --}}
       
         <div class="row mt-4">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
-               <a href="{{ route('addCategory') }}">   <button class="btn btn-sm btn-outline-dark" >Add Category</button></a>
-               <a href="{{ route('categoryDownload') }}"><button class="btn bg-success btn-sm text-white">Download</button></a>
                 </h3>
                
                 <div class="card-tools">
                  
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <span class="float-right">Total Results- {{ $showCategory->total()}}</span><br><br>
-                   <form action="{{ route('searchCategory') }}" method="GET"> <div class="input-group-append">
+                    <span class="float-right">Total Results- {{ $orderList->total()}}</span><br><br>
+                   <form action="{{ route('searchOrder') }}" method="GET"> <div class="input-group-append">
                    @csrf
-                   <input type="text" name="searchCategory" class="form-control float-right" placeholder="Search">
+                   <input type="text" name="searchOrder" class="form-control float-right" placeholder="Search">
 
                     <button type="submit" class="btn btn-default">
                       <i class="fas fa-search"></i>
@@ -58,24 +56,28 @@
                  
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>Category Name</th>
-                      <th>Product Count</th>
-                      
+                      <th>Order ID</th>
+                      <th>Customer Name</th>
+                      <th>Pizza Name</th>
+                      <th>Pizza Count</th>
+                      <th>Order Time</th>
                     </tr>
                   </thead>
                   <tbody>
                
-                @if ($showCategory->total()==0)
+                @if ($orderList->total()==0)
                   <tr>
-                    <td colspan="3" class="text-muted">There is no result.</td>
+                    <td colspan="5" class="text-muted">There is no result.</td>
                   </tr>
                 @else
-                @foreach ($showCategory as $item)
+                @foreach ($orderList as $item)
                 <tr>
-               <td>{{ $item->category_id }}</td>
-               <td>{{ $item->category_name }}</td>
-                <td>
+               <td>{{ $item->order_id }}</td>
+               <td>{{ $item->customer_name }}</td>
+               <td>{{ $item->pizza_name }}</td>
+               <td>{{ $item->count }}</td>
+               <td>{{ $item->order_time }}</td>
+                {{-- <td>
 
                   @if ($item->count==0)
                     <a href="#" class="text-decoration-none">{{ $item->count }}</a>
@@ -83,11 +85,11 @@
                   @else
                     <a href="{{ route('categoryItem',$item->category_id) }}" class="text-decoration-none">{{ $item->count }}</a>
                   @endif
-                </td>
-                  <td>
+                </td> --}}
+                  {{-- <td>
                  <a href="{{ route('editCategory',$item->category_id) }}">  <button class="btn btn-sm bg-dark text-white"><i class="fas fa-edit"></i></button></a>
                    <a href="{{ route('deleteCategory',$item->category_id) }}"><button class="btn btn-sm bg-danger text-white"><i class="fas fa-trash-alt"></i></button></a>
-                 </td>
+                 </td> --}}
                 </tr>
               @endforeach
                 @endif
@@ -96,7 +98,7 @@
              
                   </tbody>
                 </table>
-                {{ $showCategory->links() }}
+                {{ $orderList->links() }}
               </div>
               <!-- /.card-body -->
             </div>

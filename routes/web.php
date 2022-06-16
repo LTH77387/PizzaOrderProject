@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\PizzaController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\OrderController;
+use App\Http\Middleware\AdminCheckMiddware;
+use App\Http\Middleware\UserCheckMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,7 @@ Route::middleware(['auth:sanctum','verified'])->get('/dashboard',function(){
     }
 })->name('dashboard');
 
-Route::group(['prefix'=>'admin','namespcae'=>'Admin'],function(){
+Route::group(['prefix'=>'admin','namespcae'=>'Admin','middleware'=>[AdminCheckMiddware::class]],function(){
     Route::get('/',[CategoryController::class,'index'])->name('admin');
    Route::get('profile',[AdminController::class,'profile'])->name('profile');
     Route::get('category',[CategoryController::class,'category'])->name('category');
@@ -74,8 +76,12 @@ Route::get('categoryItem{id}',[UserController::class,'categoryItem'])->name('cat
 Route::get('user/create',[UserController::class,'userCreate'])->name('userCreate');
 Route::get('contactShow',[ContactController::class,'contactShow'])->name('contactShow');
 Route::get('searchContact',[ContactController::class,'searchContact'])->name('searchContact');
+Route::get('adminOrder',[AdminController::class,'adminOrder'])->name('adminOrder');
+Route::get('adminOrder/search',[AdminController::class,'searchOrder'])->name('searchOrder');
+Route::get('categoryDownload',[CategoryController::class,'categoryDownload'])->name('categoryDownload');
+Route::get('pizzaDownload',[PizzaController::class,'pizzaDownload'])->name('pizzaDownload');
 });
-Route::group(['prefix'=>'user',"namespace"=>"User"],function(){
+Route::group(['prefix'=>'user',"namespace"=>"User",'middleware'=>[UserCheckMiddleware::class]],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
     Route::get('userSend/{id}',[ContactController::class,'userSend'])->name('userSend');
     Route::get('pizza/Details/{id}',[UserController::class,'pizzaDetails'])->name('pizzaDetails');

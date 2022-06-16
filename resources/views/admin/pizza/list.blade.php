@@ -25,12 +25,13 @@
           @endif
         <div class="row mt-4">
           <div class="col-12">
-           
             <div class="card">
+              <a href="{{ route('pizzaDownload') }}"><button class="btn bg-success text-white float-end mt-3">Download CSV</button></a>
+
               <a href="{{ route('pizzaCreate') }}" class="text-decoration-none text-dark"><button class="btn-lg bg-dark"><i class="fas fa-plus"></i></button></a>
               <div class="card-header">
                 <h3 class="card-title">Pizza Table</h3>
-
+               
                 <div class="card-tools">
                   <span class="float-right mr-3">Total Results- {{ $pizzaShow->total()}}</span><br><br>
                  <form action="{{ route('pizzaSearch') }}" method="GET">

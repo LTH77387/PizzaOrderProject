@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class PizzaController extends Controller
 {
     public function pizzaGet(){
-
+        if(Session::has('PIZZA_SEARCH')){
+            Session::forget('PIZZA_SEARCH');
+        }
         $data=Pizza::paginate(3);
         if(count($data)==0){
             $emptyStatus=0;
@@ -154,6 +157,7 @@ else{
       $searchData=Pizza::orWhere('pizza_name','like','%' . $searchKey . '%')
       ->orWhere('price',$searchKey)
       ->paginate(3);
+      Session::put('PIZZA_SEARCH',$searchKey);
       $searchData->appends($request->all());
       if(count($searchData)==0){
           $emptyStatus=0;
@@ -162,6 +166,42 @@ else{
       }
     
       return view('admin.pizza.list')->with(['status'=>$emptyStatus,'pizzaShow'=>$searchData]);
+}
+public function pizzaDownload(){
+   if(Session::has('PIZZA_SEARCH')){
+    $pizza=Pizza::orWhere('pizza_name','like','%' . Session::get('PIZZA_SEARCH') . '%')
+    ->orWhere('price',Session::get('PIZZA_SEARCH'))
+    ->get();
+  
+   }else{
+       $pizza=Pizza::get();
+   }
+   $csvExporter = new \Laracsv\Export();
+
+   // $csvExporter->beforeEach(function ($user) {
+   //     $user->created_at = $user->created_at->format('Y-m-d');
+   // });
+
+   $csvExporter->build($pizza, [
+       'pizza_id' => 'Pizza ID',
+       'pizza_name'=>'Pizza Name',
+       'description'=>'Description',
+       'price'=>'Pizza Price',
+       'publish_status'=>'Publish Status',
+       'buy_one_get_one_status'=>'Buy 1 Get 1',
+       'created_at'=>'Created Date',
+       'updated_at'=>'Updated Date',
+   ]);
+
+   $csvReader = $csvExporter->getReader();
+
+   $csvReader->setOutputBOM(\League\Csv\Reader::BOM_UTF8);
+
+   $filename = 'pizzaDownload.csv';
+
+   return response((string) $csvReader)
+       ->header('Content-Type', 'text/csv; charset=UTF-8')
+       ->header('Content-Disposition', 'attachment; filename="'.$filename.'"');
 }
  private function requestUpdatePizzaData($request){
     $arr=[
