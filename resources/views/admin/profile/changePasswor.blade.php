@@ -7,6 +7,8 @@
         <div class="row mt-4">
           <div class="col-8 offset-3 mt-5">
             <div class="col-md-9">
+              <a href="{{ route('profile') }}" class="text-decoration-none text-dark "> <i class="fas fa-arrow-left"></i>Back</a>
+
               <div class="card">
                 @if (Session::has('updateSuccess'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

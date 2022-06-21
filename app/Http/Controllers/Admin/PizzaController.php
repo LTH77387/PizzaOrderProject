@@ -31,6 +31,24 @@ class PizzaController extends Controller
     }
     
     public function createPizza(Request $request){
+        $validator = Validator::make($request->all(), [
+           
+            'name'=>'required',
+            'image'=>'required',
+            'description'=>'required',
+            'price'=>'required',
+            'publish'=>'required',
+            'category'=>'required',
+            'discount'=>'required',
+            'waitingTime'=>'required',
+        ]);
+ 
+        if ($validator->fails()) {
+            return    back()
+                        ->withErrors($validator)
+                        ->withInput();
+                      
+        }
         $file=$request->file('image');
        
         $fileName=uniqid() . '_' . $file->getClientOriginalName();

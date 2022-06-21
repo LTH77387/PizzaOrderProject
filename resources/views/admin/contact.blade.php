@@ -12,6 +12,8 @@
        
       
         <div class="row mt-4">
+          <a href="{{ route('contactDownload') }}"><button class="btn bg-success text-white float-end my-3">Download Contact CSV</button></a>
+
           <div class="col-12">
             <h4 class="text-center">{{ $contact['name'] }}</h4>
             {{-- <a href="" class="text-decoration-none text-dark "> <i class="fas fa-arrow-left"></i>Back</a> --}}

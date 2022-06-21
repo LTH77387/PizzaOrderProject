@@ -9,13 +9,15 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 
 class UserController extends Controller
 {
     public function index(){
-        $pizza=Pizza::where('publish_status',1)->get();
+        $pizza=Pizza::where('publish_status',0)->get();
         if(count($pizza)==0){
             $emptyStatus=0;
         }else{
@@ -66,7 +68,7 @@ public function categoryItem($id){
 }
 public function pizzaDetails($id){
   $data=Pizza::where('pizza_id',$id)->first();
-  $pizzaData=Session::put('PIZZA_INFO',$data);
+Session::put('PIZZA_INFO',$data);
 
  return view('user.details') ->with(['pizzaDetails'=>$data]);
 }
@@ -136,6 +138,78 @@ public function dateSearch(Request $request){
     return view('user.home')->with(['pizza'=>$query,'categoryData'=>$category,'count'=>$status]);
 }
 
+public function userProfile(){
+    $data=User::select('users.name as userName','users.email as userEmail','users.password as userPassword')
+    ->where('users.role','user')->get();
+//   dd($data->toArray());
+    return view('user.userProfile')->with(['userData'=>$data]);
+}
+
+//userProfileChangePassword
+public function userProfileChangePassword(){
+   return view('user.userProfileChangePassword');
+
+}
+//user real change password update 
+public function userRealPasswordChange($id,Request $request){
+    $validator = Validator::make($request->all(), [
+        'oldPassword' => 'required',
+        'newPassword' => 'required',
+        'confirmPassword'=>'required',
+      
+    ]);
+
+    if ($validator->fails()) {
+        return back()
+                    ->withErrors($validator)
+                    ->withInput();
+    }
+// $data=$this->requestPasswordDta($request);
+$oldPassword=$request->oldPassword;
+$newPassword=$request->newPassword;
+$confirmPassword=$request->confirmPassword;
+$data=User::where('id',$id)->first();
+$hashedPassword=$data['password'];
+// dd($hashedPassword);
+if(Hash::check($oldPassword,$hashedPassword)){
+    if($newPassword != $confirmPassword){
+        return back()->with(['notMatch'=>"Passwords do not match! Try Again..."]);
+    }else{
+        if(strlen($newPassword) <= 6 || strlen($confirmPassword) <= 6){
+            return back()->with(['lengthErr'=>"Passwords Must Be Greater Than 6"]);
+        }else{//change case
+            $hash=Hash::make($newPassword);
+            $data=[
+                'password'=>$hash,
+            ];
+            User::where('id',$id)->update($data);
+           
+            return back()->with(['success'=>"Password Changed Successfully!!"]);
+        }
+    }
+}else{
+    return back()->with(['oldPasswordErr'=>"Old Password does not match"]);
+}
+}
+// }
+
+//direct user info and user can change password
+public function userProfileShow($id){
+        $data=User::where('id',$id)->get();
+
+
+    return view('user.userProfileShow')->with(['profileShow'=>$data]);
+}
+public function userProfileDataChange($id,Request $request){
+   $data=[
+    'name'=>$request->name,
+    'email'=>$request->email,
+    'phone'=>$request->phone,
+    'address'=>$request->address,
+   ];
+User::where('id',$id)->update($data);
+   return back()->with(['updateSuccess'=>"User Information updated successfully!"]);
+}
     private function search($role,$request){
         $searchData=User::where('role',$role)->where(function ($query) use($request){
             $query->orWhere('name','like','%' . $request->ListSearch . '%')
@@ -147,4 +221,5 @@ public function dateSearch(Request $request){
        
         return $searchData;
     }
+  
 }

@@ -66,11 +66,11 @@
                                   @endif --}}
                                   <select name="publish" class="form-control">
                                     @if ($pizzaEdit->publish_status==0)
-                                    <option value="0" selected>Unpublish</option>
-                                    <option value="1">Publish</option>
+                                    <option value="1">Unpublish</option>
+                                    <option value="0" selected>Publish</option>
                                     @else
-                                    <option value="0" >Unpublish</option>
-                                    <option value="1" selected>Publish</option>
+                                    <option value="1" selected>Unpublish</option>
+                                    <option value="0" >Publish</option>
                                     @endif
                                   </select>
                                  

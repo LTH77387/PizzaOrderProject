@@ -34,7 +34,7 @@
               <div class="card-header">
                 <h3 class="card-title">
                <a href="{{ route('addCategory') }}">   <button class="btn btn-sm btn-outline-dark" >Add Category</button></a>
-               <a href="{{ route('categoryDownload') }}"><button class="btn bg-success btn-sm text-white">Download</button></a>
+               <a href="{{ route('categoryDownload') }}"><button class="btn bg-success btn-sm text-white">Download CSV</button></a>
                 </h3>
                
                 <div class="card-tools">

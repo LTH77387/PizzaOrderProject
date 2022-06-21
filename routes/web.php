@@ -76,20 +76,30 @@ Route::get('categoryItem{id}',[UserController::class,'categoryItem'])->name('cat
 Route::get('user/create',[UserController::class,'userCreate'])->name('userCreate');
 Route::get('contactShow',[ContactController::class,'contactShow'])->name('contactShow');
 Route::get('searchContact',[ContactController::class,'searchContact'])->name('searchContact');
-Route::get('adminOrder',[AdminController::class,'adminOrder'])->name('adminOrder');
-Route::get('adminOrder/search',[AdminController::class,'searchOrder'])->name('searchOrder');
+Route::get('adminOrder',[OrderController::class,'adminOrder'])->name('adminOrder');
+Route::get('adminOrder/search',[OrderController::class,'searchOrder'])->name('searchOrder');
 Route::get('categoryDownload',[CategoryController::class,'categoryDownload'])->name('categoryDownload');
 Route::get('pizzaDownload',[PizzaController::class,'pizzaDownload'])->name('pizzaDownload');
+Route::get('orderDownload',[OrderController::class,'orderDownload'])->name('orderDownload');
+Route::get('contactDownload',[ContactController::class,'contactDownload'])->name('contactDownload');
+
 });
 Route::group(['prefix'=>'user',"namespace"=>"User",'middleware'=>[UserCheckMiddleware::class]],function(){
     Route::get('/',[UserController::class,'index'])->name('user');
     Route::get('userSend/{id}',[ContactController::class,'userSend'])->name('userSend');
+
     Route::get('pizza/Details/{id}',[UserController::class,'pizzaDetails'])->name('pizzaDetails');
     Route::get('userCategory/{id}',[UserController::class,'userCategory'])->name('userCategory');
     Route::get('category/search',[UserController::class,'userCategorySearch'])->name('userCategorySearch');
     Route::get('dateSearch',[UserController::class,'dateSearch'])->name('dateSearch');
     Route::get('order',[OrderController::class,'order'])->name('order');
     Route::post('placeOrder',[OrderController::class,'placeOrder'])->name('placeOrder');
+    Route::get('userProfile',[UserController::class,'userProfile'])->name('userProfile');
+    Route::get('userProfileChangePassword',[UserController::class,'userProfileChangePassword'])->name('userProfileChangePassword');
+    Route::post('userRealPasswordChange/{id}',[UserController::class,'userRealPasswordChange'])->name('userRealPasswordChange');
+    Route::get('userProfileShow/{id}',[UserController::class,'userProfileShow'])->name('userProfileShow');
+    Route::post('userProfileDataChange/{id}',[UserController::class,'userProfileDataChange'])->name('userProfileDataChange');
+  
 });
 
 

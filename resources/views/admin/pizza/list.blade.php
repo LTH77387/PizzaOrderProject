@@ -8,6 +8,7 @@
 
     <!-- Main content -->
     <section class="content">
+     
       <div class="container-fluid">
        
         @if (Session::has('deletePizza'))
@@ -24,9 +25,11 @@
           </div>
           @endif
         <div class="row mt-4">
+          <a href="{{ route('pizzaDownload') }}"><button class="btn bg-success text-white float-end my-3">Download CSV</button></a>
           <div class="col-12">
+
             <div class="card">
-              <a href="{{ route('pizzaDownload') }}"><button class="btn bg-success text-white float-end mt-3">Download CSV</button></a>
+            
 
               <a href="{{ route('pizzaCreate') }}" class="text-decoration-none text-dark"><button class="btn-lg bg-dark"><i class="fas fa-plus"></i></button></a>
               <div class="card-header">
@@ -36,7 +39,7 @@
                   <span class="float-right mr-3">Total Results- {{ $pizzaShow->total()}}</span><br><br>
                  <form action="{{ route('pizzaSearch') }}" method="GET">
                    @csrf
-                  <div class="input-group input-group-sm" style="width: 150px;">
+                  <div class="input-group input-group-sm" style="width: 200px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
                     <div class="input-group-append">
@@ -80,9 +83,10 @@
                   <td>{{ $item->price }} kyats</td>
                   <td>
                     @if ($item->publish_status==0)
-                    Unpublish
+                    Publish
                       @elseif ($item->publish_status==1)
-                      Publish
+                     
+                      Unpublish
                     @endif
                   </td>
                   <td>

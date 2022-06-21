@@ -12,13 +12,13 @@
                     <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pizza</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    
+                   
                   <form action="{{ route('logout') }}" method="POST">
                       @csrf
                       <li class="nav-item"><button class="nav-link btn btn-sm btn-outline-danger" type="submit">Logout</button></li>
                   </form>
                  <li class="nav-item">
-                    <button type="button" class="btn btn-primary position-relative">
+                    <button type="button" class="btn btn-primary position-relative ml-4">
                         <img src="{{ asset('assets/shopping-cart copy.png') }}" alt="" width="30px" height="30px">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="display">
                          0
@@ -26,7 +26,19 @@
                         </span>
                       </button>
                  </li>
-             
+         
+                <li class="nav-item">
+                   <a href="{{ route('userProfileShow',Auth()->user()->id) }}">
+                    <button type="button" class="btn btn-primary position-relative ml-4">
+                        Profile
+                     
+                        
+                          <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                             
+                         </span>
+                       </button>
+                   </a>
+                 </li>
                 </ul>
             </div>
         </div>
@@ -39,7 +51,7 @@
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" id="code-lab-pizza" src="https://www.pizzamarumyanmar.com/wp-content/uploads/2019/04/chigago.jpg" alt="..." /></div>
             <div class="col-lg-5">
-                <h1 class="font-weight-light">CODE LAB Pizza</h1>
+                <h1 class="font-weight-light">Ready to Eat?</h1>
                 <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
                 <a class="btn btn-primary" href="#!">Enjoy!</a>
             </div>
@@ -116,8 +128,8 @@
                                    <!-- Product name-->
                                    <h5 class="fw-bolder">{{ $item->pizza_name }}</h5>
                                    <!-- Product price-->
-                                   {{-- <span class="text-muted text-decoration-line-through">$20.00</span> $18.00 --}}
-                                   <span class="fs-5">{{ $item->price }} <b>MMK</b></span>
+                                   <span class="text-muted text-decoration-line-through">{{ $item->price }}</span> {{ $item->price - $item->discount_price }} 
+                                   <span class="fs-5"> <b>MMK</b></span>
                                </div>
                            </div>
                            <!-- Product actions-->

@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use auth;
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -81,30 +82,9 @@ if(Hash::check($oldPassword,$hashedPassword)){
 
 
 
-public function adminOrder(Request $request){
-    $data=Order::select('orders.*','users.name as customer_name','pizzas.pizza_name as pizza_name',DB::raw('COUNT(orders.pizza_id) as count'))
-    ->join('users','users.id','orders.customer_id')
-    ->join('pizzas','pizzas.pizza_id','orders.pizza_id')
-    // ->orWhere('users.name','like','%' . $request->searchOrder.'%')
-    // ->orWhere('pizzas.pizza_name','like','%' . $request->searchOrder.'%')
-    ->groupBy('orders.customer_id','orders.pizza_id')
-    ->paginate(5);
-    $data->appends($request->all());
-    return view('admin.order.list')->with(['orderList'=>$data]);
-   
-}
 
-public function searchOrder(Request $request){
-    $data=Order::select('orders.*','users.name as customer_name','pizzas.pizza_name as pizza_name',DB::raw('COUNT(orders.pizza_id) as count'))
-    ->join('users','users.id','orders.customer_id')
-    ->join('pizzas','pizzas.pizza_id','orders.pizza_id')
-    ->orWhere('users.name','like','%' . $request->searchOrder.'%')
-    ->orWhere('pizzas.pizza_name','like','%' . $request->searchOrder.'%')
-    ->groupBy('orders.customer_id','orders.pizza_id')
-    ->paginate(5);
-    $data->appends($request->all());
-    return view('admin.order.list')->with(['orderList'=>$data]);
-}
+
+
     
     private function requestUserData($request){
         return [

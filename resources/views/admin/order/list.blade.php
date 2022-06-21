@@ -7,8 +7,10 @@
   
     <!-- Main content -->
     <section class="content">
+      <a href="{{ route('orderDownload') }}"><button class="btn bg-success btn-sm text-white mt-4">Download CSV</button></a>
 
       <div class="container-fluid">
+
         {{-- @if (Session::has('addCategory'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ Session::get('addCategory') }}
@@ -29,14 +31,18 @@
             @endif --}}
       
         <div class="row mt-4">
+
           <div class="col-12">
+
             <div class="card">
+
               <div class="card-header">
+
                 <h3 class="card-title">
                 </h3>
                
                 <div class="card-tools">
-                 
+
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <span class="float-right">Total Results- {{ $orderList->total()}}</span><br><br>
                    <form action="{{ route('searchOrder') }}" method="GET"> <div class="input-group-append">

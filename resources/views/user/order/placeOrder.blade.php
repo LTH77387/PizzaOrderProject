@@ -3,7 +3,6 @@
 <form action="{{ route('placeOrder') }}" method="POST">
     @csrf
 <div class="row mt-5 d-flex justify-content-center">
-   Order Page
     <div class="col-4 ">
         <img src="{{ asset('uploads/' . $pizzaDetails->image) }}" class="img-thumbnail" width="300px">            <br>
        
@@ -18,9 +17,10 @@
           @endif
         <span class="fs-5">Name : &nbsp;</span>
          <span><b>{{ $pizzaDetails->pizza_name }}</b></span>
+        
     <hr>
          <span class="fs-5">Total Price : &nbsp;</span>
-         <span><b>{{ $pizzaDetails->price }}</b> MMK</span>
+         <span><b>{{ $pizzaDetails->price - $pizzaDetails->discount_price }}</b> MMK</span>
       <hr>
       
       <span class="fs-5">Waiting Time : &nbsp;</span>
@@ -28,7 +28,11 @@
       <hr>
     
       <br>
-      Pizza Count : &nbsp;<input type="number" name="pizzaCount" class="form-contorl"><br><br>
+      Pizza Count : &nbsp;<input type="number" name="pizzaCount" class="form-contorl"><br>
+      @if ($errors->has('pizzaCount'))
+      <p class="text-danger">{{ $errors->first('pizzaCount') }}</p>
+  @endif
+      <br>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="paymentType" id="flexRadioDefault1" value="1">
         <label class="form-check-label" for="flexRadioDefault1">
@@ -39,17 +43,22 @@
         <input class="form-check-input" type="radio" name="paymentType" id="flexRadioDefault2"  value="2">
         <label class="form-check-label" for="flexRadioDefault2">
           Cash On Delivery 
-        </label><br><br>
-       <input type="submit" value="Place Order" class="btn bg-dark text-white">
+        </label><br>
+        @if ($errors->has('paymentType'))
+        <p class="text-danger">{{ $errors->first('paymentType') }}</p>
+    @endif
+        <br>
+       <input type="submit" value="Place Order" class="btn bg-dark text-white"><br>
+      
        
       </div>
         </div>
    </form>
-   {{-- <a href="{{ route('pizzaDetails') }}">
-    <button class="btn bg-dark text-white" style="margin-top: 20px;">
+   <a href="{{ route('pizzaDetails',$pizzaDetails->pizza_id) }}">
+    <button class="btn bg-dark text-white" style="margin-top: 20px;" type="button">
         <i class="fas fa-backspace"></i> Back
     </button>
-</a> --}}
+</a>
 </div>
 
     
